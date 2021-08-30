@@ -1,4 +1,6 @@
 
+ENGINE_NAME = "IGQ"
+PROJECT_NAME = "IGQ"
 
 V_MAJOR = 1
 V_MINOR = 0
@@ -15,7 +17,7 @@ for x in platform.uname():
 
 
 def IsWindows():
-    return PLATFORM == "windows"
+    return PLATFORM == "windows" or PLATFORM == "win32"
     
 def IsLinux():
     return PLATFORM == "linux"

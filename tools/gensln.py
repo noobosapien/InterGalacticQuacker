@@ -1,10 +1,9 @@
 import subprocess
-from tools.globals import IsLinux
 import globals
 
 subprocess.call(["cmd.exe", "/c", "premake\\premake5", "vs2019"])
 
-if globals.isWindows():
+if globals.IsWindows():
     subprocess.call(["cmd.exe", "/c", "premake\\premake5", "vs2019"])
 
 if globals.IsLinux():

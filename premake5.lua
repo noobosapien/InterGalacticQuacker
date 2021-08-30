@@ -1,5 +1,5 @@
 workspace "IGQ"
-    startproject "IGQ editor"
+    startproject "IGQ"
     architecture "x64"
 
     configurations
@@ -8,7 +8,7 @@ workspace "IGQ"
         "Release"
     }
 
-project "IGQ Engine"
+project "IGQ"
     location "IGQ"
     kind "ConsoleApp"
     language "C++"

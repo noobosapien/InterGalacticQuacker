@@ -1,0 +1,4 @@
+set the variables for
+VS_BUILD_PATH
+VS_PATH
+CODE_PATH
