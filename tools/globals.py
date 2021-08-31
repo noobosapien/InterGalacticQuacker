@@ -1,6 +1,7 @@
 
 ENGINE_NAME = "IGQ"
 PROJECT_NAME = "IGQ"
+EDITOR_NAME = "IGQeditor"
 
 V_MAJOR = 1
 V_MINOR = 0

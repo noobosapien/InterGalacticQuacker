@@ -2,13 +2,13 @@
 #include "IGQengine/engine.h"
 
 int main(){
-    IGQ::getInfo();
-    IGQ::initialize();
-    IGQ::shutDown();
 
-#ifdef IGQ_PLATFORM_WINDOWS
-    system("pause");
-#endif
+    IGQ::Engine& engine = IGQ::Engine::instance();
+
+    engine.run();
+
+    std::cout << "Press enter to continue...";
+    std::cin.ignore();
 
     return 0;
 }

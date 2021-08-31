@@ -1,7 +1,27 @@
 #pragma once
 
+#include "core/window.h"
+
 namespace IGQ{
-    void getInfo();
-    bool initialize();
-    void shutDown();
+
+    class Engine{
+        public: 
+            static Engine& instance();
+            ~Engine() {}
+
+            void run();
+            inline void quit() { mIsRunning = false; }
+
+        private:
+            Engine();
+            static Engine* mInstance;
+            core::Window mWindow;
+            bool mIsRunning;
+
+            [[nodiscard]]bool initialize();
+            void shutDown();
+
+            void getInfo();
+
+    };
 }

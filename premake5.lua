@@ -14,6 +14,7 @@ odir = "bin-obj/%{cfg.buildcfg}/%{prj.name}"
 
 --External dependencies
 externals = {}
+externals["maclibs"] = "external/maclibs"
 externals["sdl2"] = "external/sdl2"
 
 project "IGQengine"
@@ -141,6 +142,14 @@ project "IGQeditor"
         defines
         {
             "IGQ_PLATFORM_MAC"
+        }
+
+        abspath = path.getabsolute("%{externals.maclibs}")
+        linkoptions = {"-F ".. abspath}
+
+        links 
+        {
+            "SDL2.framework"
         }
 
     filter {"system:linux", "configurations:*"}

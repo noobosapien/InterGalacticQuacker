@@ -1,11 +1,24 @@
 #include <iostream>
-#include "sdl2/SDL.h"
+#include "SDL2/SDL.h"
 
 #include "engine.h"
 
 namespace IGQ{
 
-    void getInfo(){
+    Engine* Engine::mInstance = nullptr;
+
+    Engine::Engine() : mIsRunning(false){
+        getInfo();
+    }
+
+    Engine& Engine::instance(){
+        if(!mInstance){
+            mInstance = new Engine();
+        }
+        return *mInstance;
+    }
+
+    void Engine::getInfo(){
         #ifdef IGQ_CONFIG_DEBUG
             std::cout << "Configuration Debug" << std::endl;
         #endif
@@ -23,25 +36,43 @@ namespace IGQ{
         #endif
     }
 
-    bool initialize() {
-        bool ret = true;
+    bool Engine::initialize() {
+        bool ret = false;
 
         if (SDL_Init(SDL_INIT_EVERYTHING) < 0) {
             std::cout << "Error initializing SDL2: " << SDL_GetError() << std::endl;
-            ret = false;
         }
         else {
             SDL_version version;
             SDL_VERSION(&version);
 
-            std::cout << "SDL " << (int32_t)version.major << "." << (int32_t)version.minor << "." << 
-                (int32_t)version.patch << std::endl;
+            if(mWindow.create()){
+                ret = true;
+                mIsRunning = true;
+            }
+        }
+
+        if(!ret){
+            std::cout << "Engine initialization failed. Shutting down\n" << std::endl;
+            shutDown();
         }
 
         return ret;
     }
 
-    void shutDown() {
+    void Engine::shutDown() {
+        mIsRunning = false;
+        mWindow.shutDown();
         SDL_Quit();
+    }
+
+    void Engine::run(){
+        if(initialize()){
+            while(mIsRunning){
+                mWindow.pumpEvents();
+            }
+
+            shutDown();
+        }
     }
 }
