@@ -1,11 +1,24 @@
 import globals
-import subprocess
+import subprocess, sys
+import os
 
 CONFIG = "debug"
 
-import os
+ret = 0
 
 if globals.IsWindows():
     VS_BUILD_PATH = os.environ["VS_BUILD_PATH"]
 
-    subprocess.call(["cmd.exe", "/c", VS_BUILD_PATH, "{}.sln".format(globals.PROJECT_NAME), "/property:Configuration={}".format(CONFIG)])
+    ret = subprocess.call(["cmd.exe", "/c", VS_BUILD_PATH, "{}.sln".format(globals.PROJECT_NAME), "/property:Configuration={}".format(CONFIG)])
+
+
+if globals.IsLinux():
+    ret = subprocess.call(["make", "config={}".format(CONFIG)])
+
+    
+if globals.IsMac():
+    ret = subprocess.call(["make", "config={}".format(CONFIG)])
+
+
+
+sys.exit(ret)

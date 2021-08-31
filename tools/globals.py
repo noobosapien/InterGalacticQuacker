@@ -5,6 +5,8 @@ PROJECT_NAME = "IGQ"
 V_MAJOR = 1
 V_MINOR = 0
 
+TOOLS_DIR = "tools"
+
 
 import sys, platform
 
