@@ -16,6 +16,7 @@ odir = "bin-obj/%{cfg.buildcfg}/%{prj.name}"
 externals = {}
 externals["maclibs"] = "external/maclibs"
 externals["sdl2"] = "external/sdl2"
+externals["spdlog"] = "external/spdlog"
 
 project "IGQengine"
     location "IGQengine"
@@ -37,7 +38,8 @@ project "IGQengine"
     sysincludedirs
     {
         "%{prj.name}/include/IGQengine",
-        "%{externals.sdl2}/include"
+        "%{externals.sdl2}/include",
+        "%{externals.spdlog}/include"
     }
 
     flags

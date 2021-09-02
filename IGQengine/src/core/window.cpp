@@ -1,8 +1,8 @@
 #include "SDL2/SDL.h"
-#include <iostream>
 
 #include "core/window.h"
 #include "engine.h"
+#include "log.h"
 
 namespace IGQ::core {
 
@@ -20,7 +20,7 @@ namespace IGQ::core {
         mWindow = SDL_CreateWindow("IGQ", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 600, 0);
 
         if(!mWindow){
-            std::cout << "Error creating window: " << SDL_GetError() << std::endl;
+            IGQ_ERROR("Error creating window: {}", SDL_GetError());
             return false;
         }
         return true;

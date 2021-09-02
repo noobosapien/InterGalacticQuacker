@@ -1,14 +1,13 @@
-#include <iostream>
 #include "SDL2/SDL.h"
 
 #include "engine.h"
+#include "log.h"
 
 namespace IGQ{
 
     Engine* Engine::mInstance = nullptr;
 
-    Engine::Engine() : mIsRunning(false){
-        getInfo();
+    Engine::Engine() : mIsRunning(false), mIsInitialized(false){
     }
 
     Engine& Engine::instance(){
@@ -19,51 +18,62 @@ namespace IGQ{
     }
 
     void Engine::getInfo(){
+        IGQ_TRACE("IGQ Engine v{}.{}", 0, 1);
         #ifdef IGQ_CONFIG_DEBUG
-            std::cout << "Configuration Debug" << std::endl;
+            IGQ_DEBUG("Configuration Debug");
         #endif
         #ifdef IGQ_CONFIG_RELEASE
-            std::cout << "Configuration Release" << std::endl;
+            IGQ_DEBUG("Configuration Release");
         #endif
         #ifdef IGQ_PLATFORM_WINDOWS
-            std::cout << "Platform Windows" << std::endl;
+            IGQ_WARN("Platform Windows");
         #endif
         #ifdef IGQ_PLATFORM_LINUX
-            std::cout << "Platform Linux" << std::endl;
+            IGQ_WARN("Platform Linux");
         #endif
         #ifdef IGQ_PLATFORM_MAC
-            std::cout << "Platform Mac" << std::endl;
+            IGQ_WARN("Platform Mac");
         #endif
     }
 
     bool Engine::initialize() {
         bool ret = false;
+        IGQ_ASSERT(!mIsInitialized, "Calling Engine::initialize() more than once");
 
-        if (SDL_Init(SDL_INIT_EVERYTHING) < 0) {
-            std::cout << "Error initializing SDL2: " << SDL_GetError() << std::endl;
-        }
-        else {
-            SDL_version version;
-            SDL_VERSION(&version);
+        if(!mIsInitialized){
+            mLogmanager.Initialize();
+            getInfo();
 
-            if(mWindow.create()){
-                ret = true;
-                mIsRunning = true;
+            if (SDL_Init(SDL_INIT_EVERYTHING) < 0) {
+                IGQ_ERROR("Error initializing SDL2: {}", SDL_GetError());
             }
-        }
+            else {
+                SDL_version version;
+                SDL_VERSION(&version);
 
-        if(!ret){
-            std::cout << "Engine initialization failed. Shutting down\n" << std::endl;
-            shutDown();
-        }
+                if(mWindow.create()){
+                    ret = true;
+                    mIsInitialized = true;
+                    mIsRunning = true;
+                }
+            }
 
+            if(!ret){
+                IGQ_ERROR("Engine initialization failed. Shutting down\n");
+                shutDown();
+            }
+
+        }
         return ret;
+        
     }
 
     void Engine::shutDown() {
         mIsRunning = false;
+        mIsInitialized = false;
         mWindow.shutDown();
         SDL_Quit();
+        mLogmanager.shutDown();
     }
 
     void Engine::run(){

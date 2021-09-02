@@ -1,6 +1,7 @@
 #pragma once
 
 #include "core/window.h"
+#include "managers/logmanager.h"
 
 namespace IGQ{
 
@@ -17,11 +18,15 @@ namespace IGQ{
             static Engine* mInstance;
             core::Window mWindow;
             bool mIsRunning;
+            bool mIsInitialized;
 
             [[nodiscard]]bool initialize();
             void shutDown();
 
             void getInfo();
+
+            //managers
+            managers::LogManager mLogmanager;
 
     };
 }
