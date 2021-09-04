@@ -80,6 +80,11 @@ namespace IGQ{
         if(initialize()){
             while(mIsRunning){
                 mWindow.pumpEvents();
+
+                mWindow.beginRender();
+
+
+                mWindow.endRender();
             }
 
             shutDown();

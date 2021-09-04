@@ -17,6 +17,9 @@ externals = {}
 externals["maclibs"] = "external/maclibs"
 externals["sdl2"] = "external/sdl2"
 externals["spdlog"] = "external/spdlog"
+externals["glad"] = "external/glad"
+
+include "external/glad"
 
 project "IGQengine"
     location "IGQengine"
@@ -39,12 +42,18 @@ project "IGQengine"
     {
         "%{prj.name}/include/IGQengine",
         "%{externals.sdl2}/include",
-        "%{externals.spdlog}/include"
+        "%{externals.spdlog}/include",
+        "%{externals.glad}/include"
     }
 
     flags
     {
         "FatalWarnings"
+    }
+
+    defines
+    {
+        "GLFW_INCLUDE_NONE"
     }
 
     filter {"system:windows", "configurations:*"}
@@ -131,7 +140,8 @@ project "IGQeditor"
 
         links 
         {
-            "SDL2"
+            "SDL2",
+            "glad"
         }
     
     filter {"system:macosx", "configurations:*"}
@@ -151,13 +161,20 @@ project "IGQeditor"
 
         links 
         {
-            "SDL2.framework"
+            "SDL2.framework",
+            "glad"
         }
 
     filter {"system:linux", "configurations:*"}
         defines
         {
             "IGQ_PLATFORM_LINUX"
+        }
+
+        links
+        {
+            "SDL2",
+            "glad"
         }
 
     filter "configurations:Debug"

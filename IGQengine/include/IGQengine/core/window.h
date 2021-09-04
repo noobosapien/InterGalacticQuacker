@@ -1,6 +1,7 @@
 #pragma once
 
 struct SDL_Window;
+using SDL_GLContext = void*;
 
 namespace IGQ::core{
     class Window{
@@ -13,7 +14,11 @@ namespace IGQ::core{
 
         void pumpEvents();
 
+        void beginRender();
+        void endRender();
+
         private:
         SDL_Window* mWindow;
+        SDL_GLContext mGLContext;
     };
 }
